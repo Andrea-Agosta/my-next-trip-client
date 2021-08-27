@@ -1,0 +1,9 @@
+.modal-paragraph {
+    font-size: 0.8rem;
+}
+
+.dropdown-menu {
+    max-height: 280px;
+    overflow-y: auto;
+    width: auto;
+}
