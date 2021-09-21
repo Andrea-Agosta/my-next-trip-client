@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import MyVerticallyCenteredModal from "../nav-bar/regional_setting_modal";
+import MyVerticallyCenteredModal from "./MyVerticallyCenteredModal";
 import {BACKEND_URL} from "../../config";
 
 class Modal extends React.Component {

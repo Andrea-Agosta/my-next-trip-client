@@ -1,11 +1,13 @@
 import './App.css';
 import React from "react";
-import Modal from "./components/modal/modal";
+import Navbar from "./components/nav-bar/navbar";
+import SearchForm from "./components/search-form/search-form";
 
 function App() {
     return (
     <div className="App">
-        <Modal />
+        <Navbar />
+        <SearchForm />
     </div>
   );
 }
