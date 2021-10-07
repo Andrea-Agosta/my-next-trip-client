@@ -19,17 +19,13 @@ label {
   font-size: 0.8rem;
 }
 
-/*DROPDOWN BUTTON*/
-.dropdown-menu {
-  max-height: 280px;
-  overflow-y: auto;
-  width: auto;
-}
-
 /*SEARCH FORM*/
 .section-search{
-  background-image: url("https://images.unsplash.com/photo-1486571698588-a2204703bec8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1700&q=80");
+  background-image: url("./images/search_background.jpg");
+  background-size: 100% auto;
   padding: 120px 100px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .title-home{
@@ -40,5 +36,70 @@ label {
 
 .search {
   background-color: #0b0b3a;
+  opacity: 80%;
   border-radius: 20px;
+}
+
+/*FLIGHTS LIST*/
+.bodyFlightsList {
+  background-color: #f1f2f8;
+}
+
+/*FLIGHT*/
+.containerFlight {
+  background-color: white;
+}
+
+.journeyLine {
+  position: relative;
+  display: block;
+  width: 90%;
+  height: 0.125rem;
+  margin: 0.375rem auto;
+  padding: 0;
+  border-radius: 0.375rem;
+  background-color: #68697f;
+  line-height: 0;
+  text-align: center;
+}
+
+.planeLogo {
+  position: absolute;
+  top: 50%;
+  right: -0.375rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.5rem;
+  padding-left: 0.25rem;
+  background-color: white;
+}
+
+.stop {
+  position: relative;
+  top: -0.125rem;
+  display: inline-block;
+  width: 0.375rem;
+  height: 0.375rem;
+  margin: 0 4%;
+  border-radius: 0.375rem;
+  background-color: #d1435b;
+  background-image: none;
+  line-height: 0;
+  box-shadow: 0 0 0 0.125rem white;
+  zoom: 1;
+}
+
+.borderRoundLeft {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.borderRoundRight {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.smlText {
+  font-size: 0.9rem;
 }

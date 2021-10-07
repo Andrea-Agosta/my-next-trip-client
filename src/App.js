@@ -1,14 +1,36 @@
 import './App.css';
-import React from "react";
+import React, {useState} from "react";
 import Navbar from "./components/nav-bar/navbar";
 import SearchForm from "./components/search-form/search-form";
+import {BrowserRouter as Router} from "react-router-dom";
+import { Route, Switch } from "react-router";
+import FlightList from "./FlightList";
+
 
 function App() {
+    const [modalValue, setModalValue] = useState({
+        country: "",
+        currency: ""
+    });
+
+    function handleChangeSelect(country, currency){
+        setModalValue({country: country.code, currency: currency.code});
+    }
+
     return (
-    <div className="App">
-        <Navbar />
-        <SearchForm />
-    </div>
+        <Router className="App">
+            <Navbar handleChangeSelect={handleChangeSelect} />
+            <Switch>
+                <Route path="/flights" render={(props) => <FlightList {...props} />}/>
+
+
+
+
+                <Route path="/">
+                    <SearchForm modalValue={modalValue} />
+                </Route>
+            </Switch>
+        </Router>
   );
 }
 
