@@ -84,8 +84,6 @@ function SearchForm(props){
 
     if (redirect) {
         return (
-            // <Redirect to="/proviamoci" />
-        // );
 
         <Redirect
                 to={{

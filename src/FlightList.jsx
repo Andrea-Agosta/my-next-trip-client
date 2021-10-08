@@ -12,7 +12,20 @@ function FlightList(props) {
         country: "",
         currency: ""
     });
-    const [flights, setFlights] = useState([]);
+    // const [flights, setFlights] = useState([]);
+    const [flights, setFlights] = useState({
+        departureTime: "",
+        arrivalTime: "",
+        durationTime: "",
+        stop: false,
+        companyName: "",
+        departurePlaceCode: "",
+        departurePlaceName: "",
+        arrivalPlaceCode: "",
+        arrivalPlaceName: "",
+        price: "",
+        currency: ""
+    });
 
     useEffect(() => {
         setFlightRequest({
@@ -25,17 +38,33 @@ function FlightList(props) {
         });
 
         const url = BACKEND_URL + "/flights?from=" + props.location.state.from +"&to=" + props.location.state.toFlight + "&depart=" + props.location.state.depart + "&return=" + props.location.state.return + "&country=" + props.location.state.country + "&currency=" + props.location.state.currency;
-        console.log(url);
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                setFlights(data);
-                console.log(data);
-                flights.Quotes[0].OutboundLeg.CarrierIds.map(code => {
-                    if (code === flights.Carriers.CarrierId) {
-
+                const backendData = data;
+                const depTimeFull = backendData.Quotes[0].OutboundLeg.DepartureDate;
+                const depTime = depTimeFull.split('T')[1];
+                backendData.Quotes[0].OutboundLeg.CarrierIds.map((code, i) => {
+                    if (code === backendData.Carriers[i].CarrierId) {
+                        setFlights( prevValue => {
+                            return {
+                                departureTime: depTime,
+                                arrivalTime: prevValue.arrivalTime,
+                                durationTime: prevValue.durationTime,
+                                stop: backendData.Quotes[0].Direct,
+                                companyName: backendData.Carriers[i].Name,
+                                departurePlaceCode: prevValue.departurePlaceCode,
+                                departurePlaceName: prevValue.departurePlaceName,
+                                arrivalPlaceCode: prevValue.arrivalPlaceCode,
+                                arrivalPlaceName: prevValue.arrivalPlaceName,
+                                price: backendData.Quotes[0].MinPrice,
+                                currency: backendData.Currencies[0].Symbol
+                            }
+                        });
                     }
                 });
+
+                console.log(backendData);
 
 
             })
@@ -43,29 +72,28 @@ function FlightList(props) {
 
     }, []);
 
+        function log(){
+            console.log(flights);
+        }
+
     return (
         <div className={"bodyFlightsList"}>
+            route.p
             <Flight
                 departureTime={flights}
                 arrivalTime={flights}
                 durationTime={flights}
-                stop={flights.Quotes[0].Direct}
+                // stop={flights.Quotes[0].Direct}
                 companyName={flights}
                 departurePlaceCode={flights}
                 departurePlaceName={flights}
                 arrivalPlaceCode={flights}
                 arrivalPlaceName={flights}
-                price={flights.Quotes[0].MinPrice}
-                currency={flights.Currencies[0].Code}
+                // price={flights.Quotes[0].MinPrice}
+                // currency={flights.Currencies[0].Code}
             />
-            {/*<p> {flightRequest.from + " " + flightRequest.toFlight + " " + flightRequest.depart + " " + flightRequest.return + " " + flightRequest.country + " " + flightRequest.currency} </p>*/}
-            {/*<h5>{flightRequest.from}</h5>*/}
-            {/*<h5>{flightRequest.toFlight}</h5>*/}
-            {/*<h5>{flightRequest.depart}</h5>*/}
-            {/*<h5>{flightRequest.return}</h5>*/}
-            {/*<h5>{flightRequest.country}</h5>*/}
-            {/*<h5>{flightRequest.currency}</h5>*/}
-            {/*<p>{flights}</p>*/}
+
+            <div className="btn btn-primary" onClick={log}> button</div>
         </div>
     );
 
