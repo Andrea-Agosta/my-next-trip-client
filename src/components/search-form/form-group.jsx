@@ -12,6 +12,7 @@ function FormGroup(props){
                 name={props.name}
                 onChange={props.handleChange}
             />
+            <div className={"errorMsg"}>{props.error}</div>
         </Form.Group>
     );
 }

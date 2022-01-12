@@ -1,6 +1,6 @@
 #My Next Flight
 
-Web application for searching the cheapest flight for a specific route. 
+Web application for searching the cheapest flight for a specific route.
 The user can create an account and search a flight.
 
 ### Technology Used

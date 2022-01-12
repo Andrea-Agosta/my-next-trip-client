@@ -40,6 +40,16 @@ label {
   border-radius: 20px;
 }
 
+/*Radio Style*/
+.form-check-input:checked[type=radio] {
+  filter:invert(1);
+}
+
+.form-check-input:checked {
+  background-color: black;
+  border-color: black;
+}
+
 /*FLIGHTS LIST*/
 .bodyFlightsList {
   background-color: #f1f2f8;
@@ -75,19 +85,19 @@ label {
   background-color: white;
 }
 
-.stop {
+.stopFlight{
   position: relative;
   top: -0.125rem;
   display: inline-block;
   width: 0.375rem;
   height: 0.375rem;
   margin: 0 4%;
-  border-radius: 0.375rem;
   background-color: #d1435b;
+  border-radius: 0.375rem;
   background-image: none;
   line-height: 0;
-  box-shadow: 0 0 0 0.125rem white;
   zoom: 1;
+  box-shadow: 0 0 0 0.125rem white;
 }
 
 .borderRoundLeft {
@@ -102,4 +112,15 @@ label {
 
 .smlText {
   font-size: 0.9rem;
+}
+
+.errorMsg {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.logoAirline{
+  width: 70%;
+  margin-top: -30%;
 }

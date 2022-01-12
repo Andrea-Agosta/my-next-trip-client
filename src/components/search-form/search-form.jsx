@@ -1,18 +1,31 @@
 import {Button, Form, Row} from "react-bootstrap";
 import FormGroup from "./form-group";
 import React, {useState} from "react";
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router-dom';
+import Radio from "../radio/Radio";
 
 
 function SearchForm(props){
     // const [placeList, setPlaceList] = useState([]);                 // Future upgrade
     const [redirect, setRedirect] = useState(false);
     const [search, setSearch] = useState({
-       from: "",
-       toFlight: "",
-       depart: "",
-       return: ""
+        fly_from: "",
+        fly_to: "",
+        date_from: "",
+        date_to: ""
     });
+    const [errorMsg, setErrerMsg] = useState({
+        flyFromErr: "",
+        flyToErr: "",
+        dateFromErr: "",
+        dateToErr: ""
+    });
+    const date = new Date();
+    const today = date.setHours(0,0,0,0);
+    const dateFrom = new Date(search.date_from);
+    const dateTo = new Date(search.date_to);
+    const [flightSearchType, setFlightSearchType] = useState("return");
+
 
     // useEffect(() => {
     //     // TAKE PLACE LIST FROM DB
@@ -40,62 +53,106 @@ function SearchForm(props){
     //
     // }, []);
 
+    function flightType(props){
+        setFlightSearchType(props);
+    }
+
     function handleChange(event) {
         const {value, name} = event.target;
         setSearch(prevValue => {
-           if (name === "from") {
+           if (name === "fly_from") {
                return{
-                   from: value,
-                   toFlight: prevValue.toFlight,
-                   depart: prevValue.depart,
-                   return: prevValue.return
+                   fly_from: value,
+                   fly_to: prevValue.fly_to,
+                   date_from: prevValue.date_from,
+                   date_to: prevValue.date_to
                }
-           } else if (name === "toFlight") {
+           } else if (name === "fly_to") {
                return{
-                   from: prevValue.from,
-                   toFlight: value,
-                   depart: prevValue.depart,
-                   return: prevValue.return
+                   fly_from: prevValue.fly_from,
+                   fly_to: value,
+                   date_from: prevValue.date_from,
+                   date_to: prevValue.date_to
                }
-           } else if (name === "depart"){
+           } else if (name === "date_from"){
                return{
-                   from: prevValue.from,
-                   toFlight: prevValue.toFlight,
-                   depart: value,
-                   return: prevValue.return
+                   fly_from: prevValue.fly_from,
+                   fly_to: prevValue.fly_to,
+                   date_from: value,
+                   date_to: prevValue.date_to
                }
-           } else if (name === "return") {
+           } else if (name === "date_to") {
                return{
-                   from: prevValue.from,
-                   toFlight: prevValue.toFlight,
-                   depart: prevValue.depart,
-                   return: value
+                   fly_from: prevValue.fly_from,
+                   fly_to: prevValue.fly_to,
+                   date_from: prevValue.date_from,
+                   date_to: value
                }
            }
         });
     }
 
+    function setDateFormat(date){
+        const dataSplit = date.split("-");
+        return dataSplit[2] + "/" + dataSplit[1] + "/" + dataSplit[0];
+    }
+
     function submit(event){
+        setErrerMsg({
+            flyFromErr: "",
+            flyToErr: "",
+            dateFromErr: "",
+            dateToErr: ""
+        });
         event.preventDefault();
-        if (search.from !== "" && search.toFlight !== "" && search.depart !== "" && search.return !== "" ) {
+
+        if (
+            search.fly_from !== "" &&
+            // search.fly_to !== "" &&     // disable at moment because the service search a new flight without fly_to
+            search.date_from !== "" &&
+            search.date_to !== "" &&
+            props.modalValue.currency !== "" &&
+            dateTo >= dateFrom &&
+            dateFrom >= today
+        ){
             setRedirect(true);
+        } else {
+            let tempErrMsg = {
+                flyFromErr: "",
+                flyToErr: "",
+                dateFromErr: "",
+                dateToErr: ""
+            }
+            if (search.fly_from === "") {
+                tempErrMsg.flyFromErr = "*Please insert valid departure."
+            }
+
+            if (search.date_from === "" || dateFrom < today) {
+                tempErrMsg.dateFromErr = "*Please insert valid departure date."
+            }
+
+            if ( search.date_to === "" || ( dateFrom >= today && dateTo < dateFrom) || dateTo < today) {
+                tempErrMsg.dateToErr = "*Please insert valid departure date."
+            }
+            setErrerMsg(tempErrMsg);
         }
     }
 
     if (redirect) {
         return (
-
         <Redirect
                 to={{
                     pathname: "/flights",
-                    search: "?from=" + search.from + "&to=" + search.toFlight + "&depart=" + search.depart + "&return=" + search.return + "&country=" + props.modalValue.country + "&currency" + props.modalValue.currency,
+                    search: "?fly_from=" + search.fly_from + "&fly_to=" + search.fly_to + "&date_from=" +
+                        setDateFormat(search.date_from) + "&date_to=" + setDateFormat(search.date_to) +
+                        "&curr=" + props.modalValue.currency,
                     state: {
-                        from: search.from,
-                        toFlight: search.toFlight,
-                        depart: search.depart,
-                        return: search.return,
-                        country: props.modalValue.country,
-                        currency: props.modalValue.currency
+                        fly_from: search.fly_from,
+                        fly_to: search.fly_to,
+                        date_from: setDateFormat(search.date_from),
+                        date_to: setDateFormat(search.date_to),
+                        curr: props.modalValue.currency,
+                        typeSearch:flightSearchType
                     }
                 }}
             />);
@@ -104,54 +161,63 @@ function SearchForm(props){
             <div className={"section-search"}>
                 <h1 className={"title-home"}>Let the dream begin!</h1>
                 <Form className={"p-5 m-5 search"}>
-                    <Row className="mb-3 p-3">
 
-                        {/*FROM*/}
-                        <FormGroup
-                            class={"col-3"}
-                            label={"From"}
-                            type={"text"}
-                            placeholder={"From"}
-                            name={"from"}
-                            handleChange={handleChange}
-                        />
+                    <Radio typeFlight={flightType} />
 
-                        {/*TO*/}
-                        <FormGroup
-                            class={"col-3"}
-                            label={"To"}
-                            type={"text"}
-                            placeholder={"To"}
-                            name={"toFlight"}
-                            handleChange={handleChange}
-                        />
+                        <Row className="mb-3 p-3">
 
-                        {/*DEPART*/}
-                        <FormGroup
-                            class={"col-2"}
-                            label={"Depart"}
-                            type={"date"}
-                            name={"depart"}
-                            handleChange={handleChange}
-                        />
+                            {/* fly_from */}
+                            <FormGroup
+                                class={"col-3"}
+                                label={"From"}
+                                type={"text"}
+                                placeholder={"From"}
+                                name={"fly_from"}
+                                handleChange={handleChange}
+                                error={errorMsg.flyFromErr}
+                            />
 
-                        {/*RETURN*/}
-                        <FormGroup
-                            class={"col-2"}
-                            label={"Return"}
-                            type={"date"}
-                            name={"return"}
-                            handleChange={handleChange}
-                        />
+                            {/* fly_to */}
+                            <FormGroup
+                                class={"col-3"}
+                                label={"To"}
+                                type={"text"}
+                                placeholder={"To"}
+                                name={"fly_to"}
+                                handleChange={handleChange}
+                                error={errorMsg.flyToErr}
+                            />
 
-                        <div className={"col-2"}>
-                            <label className={"mb-2"}>Travellers</label>
-                            <Form.Select>
-                                <option> 1 person</option>
-                            </Form.Select>
-                        </div>
+                            {/* date_from */}
+                            <FormGroup
+                                class={(flightSearchType === "return" ) ? "col-2" : "col-3"}
+                                label={"Depart"}
+                                type={"date"}
+                                name={"date_from"}
+                                handleChange={handleChange}
+                                error={errorMsg.dateFromErr}
+                            />
 
-                    </Row>
+                            {(flightSearchType === "return" ) && (
+
+                                /* date_to */
+                                <FormGroup
+                                    class={"col-2"}
+                                    label={"Return"}
+                                    type={"date"}
+                                    name={"date_to"}
+                                    handleChange={handleChange}
+                                    error={errorMsg.dateToErr}
+                                />
+                            )}
+
+                            <div className={(flightSearchType === "return" ) ? "col-2" : "col-3"}>
+                                <label className={"mb-2"}>Travellers</label>
+                                <Form.Select>
+                                    <option> 1 person</option>
+                                </Form.Select>
+                            </div>
+                        </Row>
                     <Button
                         className={"fw-bold ps-5 pe-5 d-flex ms-auto me-3 mt-5"}
                         variant="primary"
