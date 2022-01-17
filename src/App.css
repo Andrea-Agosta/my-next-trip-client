@@ -22,10 +22,10 @@ label {
 /*SEARCH FORM*/
 .section-search{
   background-image: url("./images/search_background.jpg");
-  background-size: 100% auto;
+  background-size: 100% 100%;
   padding: 120px 100px;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top;
 }
 
 .title-home{
@@ -120,7 +120,57 @@ label {
   margin-top: 1rem;
 }
 
-.logoAirline{
-  width: 70%;
-  margin-top: -30%;
+@media (max-width: 991.98px) {
+  .section-search{
+    background-image: url("./images/searc_background_mobile.jpg");
+    background-size: 100% auto;
+    padding: 0 33px;
+    background-repeat: no-repeat;
+    background-position: top;
+    padding-bottom: 300px;
+  }
+
+  .title-home{
+    padding: 70px 1px;
+    text-align: center;
+    color: white;
+    font-size: 4rem;
+  }
+
+  .search{
+    padding: 40px;
+  }
+
+  .displayPhone{
+    display: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+
+  /*SEARCH FORM*/
+  .section-search{
+    background-image: url("./images/searc_background_mobile.jpg");
+    background-size: auto 100%;
+    margin-top: -50px;
+    padding: 0 33px;
+    background-repeat: no-repeat;
+    background-position: top;
+    padding-bottom: 110px;
+  }
+
+  .title-home{
+    padding: 70px 1px 10px;
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+  }
+
+  .modalBtnMobile{
+    background-color: white;
+  }
+
+  .search{
+    padding: 30px;
+  }
 }

@@ -51,13 +51,19 @@ function Flight(props){
     } else {
         props.route.forEach( airport => {
             let airline = airport.airline;
+
+            // SET AIRLINE FR BECAUSE RK IS RYANAIR UK
             if (airline === "RK"){
                 airline = "FR";
             }
 
+            // SET AIRLINE IB BECAUSE RK IS IBERIA EXPRESS
+            if(airline === "I2"){
+                airline = "IB";
+            }
+
             // CHECK AND SAVE STOPS IN OUTBOUND ARRAY
             if (airport.cityTo !== props.cityTo && setOutbound) {
-
                 if (props.logo.length > 1 && departureLogo.includes(airline) === false) {
                     departureLogo.push(airline);
                 }
@@ -95,9 +101,9 @@ function Flight(props){
 
     return (
         <div>
-            <div className="container p-5">
+            <div className="container px-3 py-4">
                 <div className="row">
-                    <div className="col-7 containerFlight p-5 me-2 shadow borderRoundLeft">
+                    <div className="col-lg-7 containerFlight p-2 me-2 shadow borderRoundLeft">
                         <SingleFlight
                             cityCodeFrom={props.cityCodeFrom}
                             cityCodeTo={props.cityCodeTo}
@@ -131,14 +137,16 @@ function Flight(props){
                     </div>
 
                     {/*PRICE SECTION*/}
-                    <div className="col-4 containerFlight pt-4 borderRoundRight shadow">
+                    <div className="col-lg-4 containerFlight pt-4 borderRoundRight shadow">
                         <div className="row text-center">
                             <div className="col-12 fw-bold fs-3 mb-2">{props.curr} {props.price}</div>
                             <div className="col-12">
                                 <a href="#" className={"btn btn-success fs-5 fw-bold w-50"}> Save </a>
                             </div>
                             <div className="col-12 mt-3">
-                                <a href={props.linkKiwi} className={"btn btn-primary fs-5 fw-bold w-50"}> Buy <ArrowRightShort size={30} /> </a>
+                                <a href={props.linkKiwi} className={"btn btn-primary fs-5 fw-bold w-50"}>
+                                    Buy <ArrowRightShort size={30} />
+                                </a>
                             </div>
                             <p>Available Seats {props.availableSeats}</p>
                         </div>

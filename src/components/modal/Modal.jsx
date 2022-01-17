@@ -77,7 +77,7 @@ function Modal(props){
 
     return (
         <div>
-            <Button variant="outline-secondary" onClick={() => setModalShow(true)} >
+            <Button variant="outline-secondary modalBtnMobile" onClick={() => setModalShow(true)} >
                 {country.value} -
                 <CurrencyExchange className={"d-inline me-1 ms-1"}/>
                 {currency.value}

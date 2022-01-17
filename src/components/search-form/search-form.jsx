@@ -140,7 +140,7 @@ function SearchForm(props){
 
     if (redirect) {
         return (
-        <Redirect
+            <Redirect
                 to={{
                     pathname: "/flights",
                     search: "?fly_from=" + search.fly_from + "&fly_to=" + search.fly_to + "&date_from=" +
@@ -155,20 +155,19 @@ function SearchForm(props){
                         typeSearch:flightSearchType
                     }
                 }}
-            />);
+            />
+        );
     } else {
         return (
             <div className={"section-search"}>
                 <h1 className={"title-home"}>Let the dream begin!</h1>
-                <Form className={"p-5 m-5 search"}>
-
+                <Form className={"p-lg-5 m-lg-5 search"}>
                     <Radio typeFlight={flightType} />
-
-                        <Row className="mb-3 p-3">
+                        <Row className="mb-lg-3 p-lg-3">
 
                             {/* fly_from */}
                             <FormGroup
-                                class={"col-3"}
+                                class={"col-lg-3"}
                                 label={"From"}
                                 type={"text"}
                                 placeholder={"From"}
@@ -179,7 +178,7 @@ function SearchForm(props){
 
                             {/* fly_to */}
                             <FormGroup
-                                class={"col-3"}
+                                class={"col-lg-3"}
                                 label={"To"}
                                 type={"text"}
                                 placeholder={"To"}
@@ -190,7 +189,7 @@ function SearchForm(props){
 
                             {/* date_from */}
                             <FormGroup
-                                class={(flightSearchType === "return" ) ? "col-2" : "col-3"}
+                                class={(flightSearchType === "return" ) ? "col-lg-2" : "col-lg-3"}
                                 label={"Depart"}
                                 type={"date"}
                                 name={"date_from"}
@@ -202,7 +201,7 @@ function SearchForm(props){
 
                                 /* date_to */
                                 <FormGroup
-                                    class={"col-2"}
+                                    class={"col-lg-2"}
                                     label={"Return"}
                                     type={"date"}
                                     name={"date_to"}
@@ -211,7 +210,7 @@ function SearchForm(props){
                                 />
                             )}
 
-                            <div className={(flightSearchType === "return" ) ? "col-2" : "col-3"}>
+                            <div className={(flightSearchType === "return" ) ? "col-lg-2" : "col-lg-3"}>
                                 <label className={"mb-2"}>Travellers</label>
                                 <Form.Select>
                                     <option> 1 person</option>

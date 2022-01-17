@@ -17,19 +17,19 @@ function App() {
   }
 
   return (
-      <Router className="App">
-        <Navbar handleChangeSelect={handleChangeSelect} />
-        <Switch>
-          <Route path="/flights" render={(props) => <FlightList {...props} />}/>
+    <Router className="App">
+      <Navbar handleChangeSelect={handleChangeSelect} />
+      <Switch>
+        <Route path="/flights" render={(props) => <FlightList {...props} />}/>
 
 
 
+        <Route path="/">
+          <SearchForm modalValue={modalValue} />
+        </Route>
+      </Switch>
+    </Router>
 
-          <Route path="/">
-            <SearchForm modalValue={modalValue} />
-          </Route>
-        </Switch>
-      </Router>
   );
 }
 
