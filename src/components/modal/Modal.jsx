@@ -7,6 +7,7 @@ import countryToCurrency from 'country-to-currency';
 import serverConnection from "../../common/serverConnection";
 import currenciesList from "../../currenciesList.json"
 import {getEmojiFlag} from "countries-list";
+import AddPeopleModal from "./AddPeopleModal";
 
 
 function Modal(props){
@@ -75,25 +76,46 @@ function Modal(props){
         props.handleChangeSelect(pCountry, pCurrency);
     }
 
-    return (
-        <div>
-            <Button variant="outline-secondary modalBtnMobile" onClick={() => setModalShow(true)} data-testid="custom-element" >
-                {country.value} -
-                <CurrencyExchange className={"d-inline me-1 ms-1"}/>
-                {currency.value}
-            </Button>
-            <MyVerticallyCenteredModal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                country={country.value}
-                currency={currency.code}
-                countries_list={countriesList}
-                currencies_list={currenciesList}
-                change_country={changeCountry}
-                change_currency={changeCurrency}
-            />
-        </div>
-    );
+    if (props.role === "currencyCountry"){
+        return (
+            <div>
+                <Button variant="outline-secondary modalBtnMobile"
+                        onClick={() => setModalShow(true)}
+                        data-testid="custom-element"
+                >
+                    {country.value} -
+                    <CurrencyExchange className={"d-inline me-1 ms-1"}/>
+                    {currency.value}
+                </Button>
+                <MyVerticallyCenteredModal
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                    country={country.value}
+                    currency={currency.code}
+                    countries_list={countriesList}
+                    currencies_list={currenciesList}
+                    change_country={changeCountry}
+                    change_currency={changeCurrency}
+                />
+            </div>
+        )
+    } else if (props.role === "addPeople"){
+        return (
+            <div>
+                <Button variant="light modalBtnMobile"
+                        onClick={() => setModalShow(true)}
+                        data-testid="custom-element"
+                >
+                    People
+                </Button>
+                <AddPeopleModal
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+
+                />
+            </div>
+        )
+    }
 }
 
 export default Modal;

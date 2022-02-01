@@ -30,7 +30,7 @@ function Navbar(props) {
             <MediaQuery minWidth={576}>
                 <div className={"ms-auto me-5 d-inline-flex mt-2"}>
                     <Nav.Item>
-                        <Modal handleChangeSelect={props.handleChangeSelect} />
+                        <Modal handleChangeSelect={props.handleChangeSelect} role={"currencyCountry"} />
                     </Nav.Item>
                     <Nav.Item>
                         <button className={"btn btn-primary ms-3"} data-testid="normal" > Log In </button>

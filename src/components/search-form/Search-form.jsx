@@ -3,6 +3,7 @@ import FormGroup from "./form-group";
 import React, {useState} from "react";
 import { Redirect } from 'react-router-dom';
 import Radio from "../radio/Radio";
+import Modal from "../modal/Modal";
 
 
 function SearchForm(props){
@@ -25,7 +26,6 @@ function SearchForm(props){
     const dateFrom = new Date(search.date_from);
     const dateTo = new Date(search.date_to);
     const [flightSearchType, setFlightSearchType] = useState("return");
-
 
     // useEffect(() => {
     //     // TAKE PLACE LIST FROM DB
@@ -212,9 +212,10 @@ function SearchForm(props){
 
                             <div className={(flightSearchType === "return" ) ? "col-lg-2" : "col-lg-3"}>
                                 <label className={"mb-2"}>Travellers</label>
-                                <Form.Select>
-                                    <option> 1 person</option>
-                                </Form.Select>
+                                {/*<Form.Select>*/}
+                                {/*    <option> 1 person</option>*/}
+                                {/*</Form.Select>*/}
+                                <Modal role={"addPeople"}/>
                             </div>
                         </Row>
                     <Button
