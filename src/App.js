@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useState} from "react";
 import Navbar from "./components/nav-bar/navbar";
-import SearchForm from "./components/search-form/search-form";
+import SearchForm from "./components/search-form/Search-form";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import FlightList from "./FlightList";
 

@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import MyVerticallyCenteredModal from "./MyVerticallyCenteredModal";
 import {REACT_APP_API_GEOLOCATION_URL} from "../../config";
 import { CurrencyExchange } from 'react-bootstrap-icons';
-import countryToCurrency from "https://unpkg.com/country-to-currency/index.esm.js";
+import countryToCurrency from 'country-to-currency';
 import serverConnection from "../../common/serverConnection";
 import currenciesList from "../../currenciesList.json"
 import {getEmojiFlag} from "countries-list";
@@ -12,7 +12,7 @@ import {getEmojiFlag} from "countries-list";
 function Modal(props){
     const [modalShow, setModalShow] = React.useState(false);
     const [country, setCountry] = useState({code:"", value:"Select Country"});
-    const [currency, setCurrency] = useState({code: "stoca", value: "stoca"});
+    const [currency, setCurrency] = useState({code: "", value: ""});
     const [countriesList, setCountriesList] = useState([]);
     const mounted = useRef();
 
@@ -77,7 +77,7 @@ function Modal(props){
 
     return (
         <div>
-            <Button variant="outline-secondary modalBtnMobile" onClick={() => setModalShow(true)} >
+            <Button variant="outline-secondary modalBtnMobile" onClick={() => setModalShow(true)} data-testid="custom-element" >
                 {country.value} -
                 <CurrencyExchange className={"d-inline me-1 ms-1"}/>
                 {currency.value}

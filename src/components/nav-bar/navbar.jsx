@@ -16,7 +16,7 @@ function Navbar(props) {
                 <Nav.Link className={"brandName"} eventKey="/home">My Next Trip</Nav.Link>
                 <MediaQuery maxWidth={575.98}>
                     <div className={"my-auto float-end"} >
-                        <button className={"btn btn-primary ms-3"}> Log In </button>
+                        <button className={"btn btn-primary ms-3"} data-testid="mobile"> Log In </button>
                     </div>
                 </MediaQuery>
             </Nav.Item>
@@ -33,7 +33,7 @@ function Navbar(props) {
                         <Modal handleChangeSelect={props.handleChangeSelect} />
                     </Nav.Item>
                     <Nav.Item>
-                        <button className={"btn btn-primary ms-3"}> Log In </button>
+                        <button className={"btn btn-primary ms-3"} data-testid="normal" > Log In </button>
                     </Nav.Item>
                 </div>
             </MediaQuery>
