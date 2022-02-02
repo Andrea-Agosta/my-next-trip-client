@@ -284,7 +284,6 @@ function SearchForm(props){
                                     adults={countTravellers.adults}
                                     child={countTravellers.child}
                                     infant={countTravellers.infant}
-                                    // error={errorMsg.travellerErr}
                                 />
                                 <div className={"errorMsg"}>{errorMsg.travellerErr}</div>
                             </div>

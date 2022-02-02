@@ -9,6 +9,7 @@ function TravellersModal(props){
     return (
         <div>
             <Button variant="light modalBtnMobile"
+                    className={"w-100 text-start"}
                     onClick={() => setModalShow(true)}
                     data-testid="custom-element"
             >
