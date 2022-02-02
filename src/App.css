@@ -19,13 +19,22 @@ label {
   font-size: 0.8rem;
 }
 
+.btn-modal{
+  background-color: #efefef;
+  padding: 0px 6px;
+  height: 25px;
+  width: 25px;
+  border: gray 1px solid;
+  border-radius: 50%;
+}
+
 /*SEARCH FORM*/
 .section-search{
   background-image: url("./images/search_background.jpg");
-  background-size: 100% auto;
+  background-size: 100% 100%;
   padding: 120px 100px;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top;
 }
 
 .title-home{
@@ -38,6 +47,16 @@ label {
   background-color: #0b0b3a;
   opacity: 80%;
   border-radius: 20px;
+}
+
+/*Radio Style*/
+.form-check-input:checked[type=radio] {
+  filter:invert(1);
+}
+
+.form-check-input:checked {
+  background-color: black;
+  border-color: black;
 }
 
 /*FLIGHTS LIST*/
@@ -75,19 +94,19 @@ label {
   background-color: white;
 }
 
-.stop {
+.stopFlight{
   position: relative;
   top: -0.125rem;
   display: inline-block;
   width: 0.375rem;
   height: 0.375rem;
   margin: 0 4%;
-  border-radius: 0.375rem;
   background-color: #d1435b;
+  border-radius: 0.375rem;
   background-image: none;
   line-height: 0;
-  box-shadow: 0 0 0 0.125rem white;
   zoom: 1;
+  box-shadow: 0 0 0 0.125rem white;
 }
 
 .borderRoundLeft {
@@ -102,4 +121,65 @@ label {
 
 .smlText {
   font-size: 0.9rem;
+}
+
+.errorMsg {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 991.98px) {
+  .section-search{
+    background-image: url("./images/searc_background_mobile.jpg");
+    background-size: 100% auto;
+    padding: 0 33px;
+    background-repeat: no-repeat;
+    background-position: top;
+    padding-bottom: 300px;
+  }
+
+  .title-home{
+    padding: 70px 1px;
+    text-align: center;
+    color: white;
+    font-size: 4rem;
+  }
+
+  .search{
+    padding: 40px;
+  }
+
+  .displayPhone{
+    display: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+
+  /*SEARCH FORM*/
+  .section-search{
+    background-image: url("./images/searc_background_mobile.jpg");
+    background-size: auto 100%;
+    margin-top: -50px;
+    padding: 0 33px;
+    background-repeat: no-repeat;
+    background-position: top;
+    padding-bottom: 110px;
+  }
+
+  .title-home{
+    padding: 70px 1px 10px;
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+  }
+
+  .modalBtnMobile{
+    background-color: white;
+  }
+
+  .search{
+    padding: 30px;
+  }
 }

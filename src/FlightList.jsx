@@ -1,154 +1,136 @@
 import React, {useEffect, useState} from "react";
-import {BACKEND_URL} from "./config";
 import Flight from "./components/flight/Flight";
+import serverConnection from "./common/serverConnection";
+import getSymbolFromCurrency from 'currency-symbol-map'
+import loadingGif from './images/loader.gif'
 
 
+// SHOW THE LIST OF FLIGHT
 function FlightList(props) {
+    const [error, setError] = useState(false)
     const [flightRequest, setFlightRequest] = useState({
-        from: "",
-        toFlight: "",
-        depart: "",
-        return: "",
-        country: "",
-        currency: ""
+        fly_from: "",
+        fly_to: "",
+        date_from: "",
+        date_to: "",
+        return_from: "",
+        return_to: "",
+        curr: ""
     });
-    // const [flights, setFlights] = useState([]);
-    const [flights, setFlights] = useState({
-        departureTime: "",
-        arrivalTime: "",
-        durationTime: "",
-        stop: false,
-        companyName: "",
-        departurePlaceCode: "",
-        departurePlaceName: "",
-        arrivalPlaceCode: "",
-        arrivalPlaceName: "",
-        price: "",
-        currency: ""
-    });
+    const [flightsList, setFlightsList] = useState([]);
+    const [showTenResults, setShowTenResults] = useState(true);
 
-    useEffect(() => {
-        setFlightRequest({
-            from: props.location.state.from,
-            toFlight: props.location.state.toFlight,
-            depart: props.location.state.depart,
-            return: props.location.state.return,
-            country: props.location.state.country,
-            currency: props.location.state.currency
-        });
+    useEffect( () => {
+        const search = {
+            fly_from: props.location.state.fly_from,
+            fly_to: props.location.state.fly_to,
+            date_from: props.location.state.date_from,
+            date_to: props.location.state.date_from,
+            return_from: "",
+            return_to: "",
+            curr: props.location.state.curr,
+            adults: props.location.state.adults,
+            children: props.location.state.children,
+            infants: props.location.state.infants
+        };
 
-        const url = BACKEND_URL + "/flights?from=" + props.location.state.from +"&to=" + props.location.state.toFlight + "&depart=" + props.location.state.depart + "&return=" + props.location.state.return + "&country=" + props.location.state.country + "&currency=" + props.location.state.currency;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const backendData = data;
-                const depTimeFull = backendData.Quotes[0].OutboundLeg.DepartureDate;
-                const depTime = depTimeFull.split('T')[1];
-                backendData.Quotes[0].OutboundLeg.CarrierIds.map((code, i) => {
-                    if (code === backendData.Carriers[i].CarrierId) {
-                        setFlights( prevValue => {
-                            return {
-                                departureTime: depTime,
-                                arrivalTime: prevValue.arrivalTime,
-                                durationTime: prevValue.durationTime,
-                                stop: backendData.Quotes[0].Direct,
-                                companyName: backendData.Carriers[i].Name,
-                                departurePlaceCode: prevValue.departurePlaceCode,
-                                departurePlaceName: prevValue.departurePlaceName,
-                                arrivalPlaceCode: prevValue.arrivalPlaceCode,
-                                arrivalPlaceName: prevValue.arrivalPlaceName,
-                                price: backendData.Quotes[0].MinPrice,
-                                currency: backendData.Currencies[0].Symbol
-                            }
-                        });
-                    }
-                });
-
-                console.log(backendData);
-
-
-            })
-            .catch(err => console.log(err));
-
-    }, []);
-
-        function log(){
-            console.log(flights);
+        if(props.location.state.typeSearch === "return") {
+            search.return_from = props.location.state.date_to;
+            search.return_to = props.location.state.date_to;
         }
+
+        setFlightRequest(search);
+
+         serverConnection("GET", "/flights/search", search)
+            .then(response => {
+                console.log(response);
+                if (response.status === 200){
+                    const tempFlightList = [];
+                    response.data.map(singleFlight => (
+                        tempFlightList.push(singleFlight)
+                ));
+                    setFlightsList(tempFlightList);
+                } else {
+                    setError(true);
+                }
+        })
+            .catch( err => console.err());
+    }, [props]);
 
     return (
         <div className={"bodyFlightsList"}>
-            route.p
-            <Flight
-                departureTime={flights}
-                arrivalTime={flights}
-                durationTime={flights}
-                // stop={flights.Quotes[0].Direct}
-                companyName={flights}
-                departurePlaceCode={flights}
-                departurePlaceName={flights}
-                arrivalPlaceCode={flights}
-                arrivalPlaceName={flights}
-                // price={flights.Quotes[0].MinPrice}
-                // currency={flights.Currencies[0].Code}
-            />
-
-            <div className="btn btn-primary" onClick={log}> button</div>
+            {
+                (flightsList.length === 0) ?
+                    <div className={"bg-white text-center mt-5"}>
+                        <img src={loadingGif} alt={"loading gif"} className={"mt-5"}/>
+                    </div>
+                        :
+                    <div>
+                        {
+                            (!error) ?
+                                (showTenResults) ?
+                                    flightsList.slice(0, 10).map((flight, index) => (
+                                        <Flight
+                                            key={index}
+                                            logo={flight.airlines}
+                                            availableSeats={flight.availability.seats}
+                                            bookingToken={flight.booking_token}
+                                            linkKiwi={flight.deep_link}
+                                            outbound={flight.routes[0]}
+                                            return={flight.routes[1]}
+                                            changeAirport={flight.has_airport_change}
+                                            cityTo={flight.cityTo}
+                                            localTimeArrival={flight.local_arrival.slice(11, 16)}
+                                            localTimeDeparture={flight.local_departure.slice(11, 16)}
+                                            fullDuration={flight.duration}
+                                            price={flight.price}
+                                            curr={getSymbolFromCurrency(flightRequest.curr)}
+                                            stop={flight.route.length}
+                                            route={flight.route}
+                                            typeSearch={props.location.state.typeSearch}
+                                        />
+                                    ))
+                                :
+                                    flightsList.map((flight, index) => (
+                                        <Flight
+                                            key={index}
+                                            logo={flight.airlines}
+                                            availableSeats={flight.availability.seats}
+                                            bookingToken={flight.booking_token}
+                                            linkKiwi={flight.deep_link}
+                                            outbound={flight.routes[0]}
+                                            return={flight.routes[1]}
+                                            changeAirport={flight.has_airport_change}
+                                            cityTo={flight.cityTo}
+                                            localTimeArrival={flight.local_arrival.slice(11, 16)}
+                                            localTimeDeparture={flight.local_departure.slice(11, 16)}
+                                            fullDuration={flight.duration}
+                                            price={flight.price}
+                                            curr={getSymbolFromCurrency(flightRequest.curr)}
+                                            stop={flight.route.length}
+                                            route={flight.route}
+                                            typeSearch={props.location.state.typeSearch}
+                                        />
+                                    ))
+                                :
+                                <div className={"text-center my-5 bg-white"}>
+                                    <h1 className={"alert alert-dark mt-5"}> 404 Error </h1>
+                                    <a className={"btn btn-primary mt-5"} href={"/"}> Back to home </a>
+                                </div>
+                        }
+                        <div className={"row mb-3 text-center"}>
+                            <div className={"col"}>
+                                <button className={"btn btn-primary fs-5 fw-bold px-4"}
+                                        onClick={() => setShowTenResults(false)}
+                                >
+                                    Show more flight
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            }
         </div>
     );
-
 }
-
-
-
-
-
-
-
-
-//
-// class FlightList extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             from: "",
-//             toFlight:"",
-//             depart: "",
-//             return:"",
-//             flight: ""
-//         }
-//     }
-//
-//     componentDidMount() {
-//         this.setState({from:this.props.location.state.from});
-//         this.setState({toFlight:this.props.location.state.toFlight});
-//         this.setState({depart:this.props.location.state.depart});
-//         this.setState({return:this.props.location.state.return});
-//         const url = BACKEND_URL + "/search?from=" + this.props.location.state.from +"&to=" + this.props.location.state.toFlight + "&depart=" + this.props.location.state.depart + "&return=" + this.props.location.state.return;
-//
-//         fetch(url)
-//             .then(response => response.json())
-//             .then(data => {
-//                 this.setState({flight: data});
-//             })
-//             .catch(error => {
-//                 this.setState({errorMessage: error.toString()});
-//                 console.error('There was an error!', error);
-//             });
-//
-//     }
-//
-//     render() {
-//         return (
-//             <div>
-//                 <p> {this.state.from + " " + this.state.toFlight + " " + this.state.depart + " " + this.state.return} </p>
-//                 <h5>{this.state.flight.from}</h5>
-//                 <h5>{this.state.flight.to}</h5>
-//                 <h5>{this.state.flight.depart}</h5>
-//                 <h5>{this.state.flight.return}</h5>
-//             </div>
-//         )
-//     };
-// }
 
 export default FlightList;

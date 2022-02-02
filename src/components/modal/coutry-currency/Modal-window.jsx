@@ -2,9 +2,9 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import React from "react";
 import { Globe2, CurrencyExchange } from 'react-bootstrap-icons';
-import Select from "../select/Select";
+import Select from "../../select/Select";
 
-function MyVerticallyCenteredModal(props) {
+function ModalWindow(props) {
 
     return (
         <Modal
@@ -28,8 +28,8 @@ function MyVerticallyCenteredModal(props) {
                     <Select
                         name={"country"}
                         countyselected={props.country}
-                        itemList={props.countriesList}
-                        handleChange={props.onChangeCountry}
+                        itemList={props.countries_list}
+                        handleChange={props.change_country}
                     />
                 </div>
                 <div className={"mb-2"}>
@@ -40,8 +40,8 @@ function MyVerticallyCenteredModal(props) {
                     <Select
                         name={"currency"}
                         currencySelected={props.currency}
-                        itemList={props.currenciesList}
-                        handleChange={props.onChangeCurrency}
+                        itemList={props.currencies_list}
+                        handleChange={props.change_currency}
                     />
                 </div>
             </Modal.Body>
@@ -52,4 +52,4 @@ function MyVerticallyCenteredModal(props) {
     );
 }
 
-export default MyVerticallyCenteredModal;
+export default ModalWindow;
