@@ -15,17 +15,23 @@ function SearchForm(props){
         date_from: "",
         date_to: ""
     });
-    const [errorMsg, setErrerMsg] = useState({
+    const [errorMsg, setErrorMsg] = useState({
         flyFromErr: "",
         flyToErr: "",
         dateFromErr: "",
-        dateToErr: ""
+        dateToErr: "",
+        travellerErr: ""
     });
     const date = new Date();
     const today = date.setHours(0,0,0,0);
     const dateFrom = new Date(search.date_from);
     const dateTo = new Date(search.date_to);
     const [flightSearchType, setFlightSearchType] = useState("return");
+    const [countTravellers, setCountTravellers] = useState({
+        adults:1,
+        child:0,
+        infant:0
+    });
 
     // useEffect(() => {
     //     // TAKE PLACE LIST FROM DB
@@ -98,11 +104,12 @@ function SearchForm(props){
     }
 
     function submit(event){
-        setErrerMsg({
+        setErrorMsg({
             flyFromErr: "",
             flyToErr: "",
             dateFromErr: "",
-            dateToErr: ""
+            dateToErr: "",
+            travellerErr: ""
         });
         event.preventDefault();
 
@@ -113,7 +120,8 @@ function SearchForm(props){
             search.date_to !== "" &&
             props.modalValue.currency !== "" &&
             dateTo >= dateFrom &&
-            dateFrom >= today
+            dateFrom >= today &&
+            (countTravellers.adults + countTravellers.child + countTravellers.infant) > 0
         ){
             setRedirect(true);
         } else {
@@ -121,7 +129,8 @@ function SearchForm(props){
                 flyFromErr: "",
                 flyToErr: "",
                 dateFromErr: "",
-                dateToErr: ""
+                dateToErr: "",
+                travellerErr: "",
             }
             if (search.fly_from === "") {
                 tempErrMsg.flyFromErr = "*Please insert valid departure."
@@ -134,9 +143,60 @@ function SearchForm(props){
             if ( search.date_to === "" || ( dateFrom >= today && dateTo < dateFrom) || dateTo < today) {
                 tempErrMsg.dateToErr = "*Please insert valid departure date."
             }
-            setErrerMsg(tempErrMsg);
+
+            if ((countTravellers.adults + countTravellers.child + countTravellers.infant) === 0) {
+                tempErrMsg.travellerErr = "*Please insert valid number of traveler."
+            }
+            setErrorMsg(tempErrMsg);
         }
     }
+
+    // ADD TRAVELLERS
+    function increase(event){
+        if( event.target.name === "adults"){
+            setCountTravellers({
+                adults: countTravellers.adults + 1,
+                child: countTravellers.child,
+                infant: countTravellers.infant
+            });
+        } else if( event.target.name === "child"){
+            setCountTravellers({
+                adults: countTravellers.adults,
+                child: countTravellers.child + 1,
+                infant: countTravellers.infant
+            });
+        } else if( event.target.name === "infant"){
+            setCountTravellers({
+                adults: countTravellers.adults,
+                child: countTravellers.child,
+                infant: countTravellers.infant + 1
+            });
+        }
+    }
+
+    // REMOVE TRAVELLERS
+    function decrease(event){
+        if( event.target.name === "adults" && countTravellers.adults > 0){
+            setCountTravellers({
+                adults:countTravellers.adults - 1,
+                child: countTravellers.child,
+                infant: countTravellers.infant
+            });
+        } else if( event.target.name === "child" && countTravellers.child > 0){
+            setCountTravellers({
+                adults: countTravellers.adults,
+                child: countTravellers.child - 1,
+                infant: countTravellers.infant
+            });
+        } else if( event.target.name === "infant" && countTravellers.infant > 0){
+            setCountTravellers({
+                adults: countTravellers.adults,
+                child: countTravellers.child,
+                infant: countTravellers.infant - 1
+            });
+        }
+    }
+
 
     if (redirect) {
         return (
@@ -145,14 +205,20 @@ function SearchForm(props){
                     pathname: "/flights",
                     search: "?fly_from=" + search.fly_from + "&fly_to=" + search.fly_to + "&date_from=" +
                         setDateFormat(search.date_from) + "&date_to=" + setDateFormat(search.date_to) +
-                        "&curr=" + props.modalValue.currency,
+                        "&curr=" + props.modalValue.currency +
+                        ((countTravellers.adults > 0) ? "&adults=" + countTravellers.adults : "")+
+                        ((countTravellers.child > 0) ? "&children=" + countTravellers.child : "") +
+                        ((countTravellers.infant > 0) ? "&infants=" + countTravellers.infant : ""),
                     state: {
                         fly_from: search.fly_from,
                         fly_to: search.fly_to,
                         date_from: setDateFormat(search.date_from),
                         date_to: setDateFormat(search.date_to),
                         curr: props.modalValue.currency,
-                        typeSearch:flightSearchType
+                        typeSearch:flightSearchType,
+                        adults: countTravellers.adults,
+                        children: countTravellers.child,
+                        infants: countTravellers.infant
                     }
                 }}
             />
@@ -212,10 +278,15 @@ function SearchForm(props){
 
                             <div className={(flightSearchType === "return" ) ? "col-lg-2" : "col-lg-3"}>
                                 <label className={"mb-2"}>Travellers</label>
-                                {/*<Form.Select>*/}
-                                {/*    <option> 1 person</option>*/}
-                                {/*</Form.Select>*/}
-                                <TravellersModal />
+                                <TravellersModal
+                                    addAdults={increase}
+                                    removeAdults={decrease}
+                                    adults={countTravellers.adults}
+                                    child={countTravellers.child}
+                                    infant={countTravellers.infant}
+                                    // error={errorMsg.travellerErr}
+                                />
+                                <div className={"errorMsg"}>{errorMsg.travellerErr}</div>
                             </div>
                         </Row>
                     <Button

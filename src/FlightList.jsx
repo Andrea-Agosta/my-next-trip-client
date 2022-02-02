@@ -28,7 +28,10 @@ function FlightList(props) {
             date_to: props.location.state.date_from,
             return_from: "",
             return_to: "",
-            curr: props.location.state.curr
+            curr: props.location.state.curr,
+            adults: props.location.state.adults,
+            children: props.location.state.children,
+            infants: props.location.state.infants
         };
 
         if(props.location.state.typeSearch === "return") {

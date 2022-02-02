@@ -4,7 +4,7 @@ import React from "react";
 import CountTravellers from "./CountTravellers";
 
 
-function AddPeopleModal(props) {
+function AddPeople(props) {
     return (
         <Modal
             {...props}
@@ -47,4 +47,4 @@ function AddPeopleModal(props) {
     );
 }
 
-export default AddPeopleModal;
+export default AddPeople;
