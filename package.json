@@ -12,6 +12,7 @@
     "country-to-currency": "^1.0.3",
     "currency-symbol-map": "^5.0.1",
     "node-fetch": "^3.2.0",
+    "npm-force-resolutions": "^0.0.10",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.4",
     "react-bootstrap-icons": "^1.7.2",
@@ -26,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "preinstall": "npx npm-force-resolutions"
   },
   "eslintConfig": {
     "extends": [
@@ -48,5 +50,8 @@
   },
   "devDependencies": {
     "msw": "^0.36.5"
+  },
+  "resolutions": {
+    "node-fetch": "^3.2.0"
   }
 }
