@@ -1,16 +1,15 @@
 import React, {useEffect, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
-import MyVerticallyCenteredModal from "./MyVerticallyCenteredModal";
-import {REACT_APP_API_GEOLOCATION_URL} from "../../config";
+import ModalWindow from "./Modal-window";
+import {REACT_APP_API_GEOLOCATION_URL} from "../../../config";
 import { CurrencyExchange } from 'react-bootstrap-icons';
 import countryToCurrency from 'country-to-currency';
-import serverConnection from "../../common/serverConnection";
-import currenciesList from "../../currenciesList.json"
+import serverConnection from "../../../common/serverConnection";
+import currenciesList from "../../../currenciesList.json"
 import {getEmojiFlag} from "countries-list";
-import AddPeopleModal from "./AddPeopleModal";
 
 
-function Modal(props){
+function CountryCurrencyModal(props){
     const [modalShow, setModalShow] = React.useState(false);
     const [country, setCountry] = useState({code:"", value:"Select Country"});
     const [currency, setCurrency] = useState({code: "", value: ""});
@@ -76,46 +75,28 @@ function Modal(props){
         props.handleChangeSelect(pCountry, pCurrency);
     }
 
-    if (props.role === "currencyCountry"){
-        return (
-            <div>
-                <Button variant="outline-secondary modalBtnMobile"
-                        onClick={() => setModalShow(true)}
-                        data-testid="custom-element"
-                >
-                    {country.value} -
-                    <CurrencyExchange className={"d-inline me-1 ms-1"}/>
-                    {currency.value}
-                </Button>
-                <MyVerticallyCenteredModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-                    country={country.value}
-                    currency={currency.code}
-                    countries_list={countriesList}
-                    currencies_list={currenciesList}
-                    change_country={changeCountry}
-                    change_currency={changeCurrency}
-                />
-            </div>
-        )
-    } else if (props.role === "addPeople"){
-        return (
-            <div>
-                <Button variant="light modalBtnMobile"
-                        onClick={() => setModalShow(true)}
-                        data-testid="custom-element"
-                >
-                    People
-                </Button>
-                <AddPeopleModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
-
-                />
-            </div>
-        )
-    }
+    return (
+        <div>
+            <Button variant="outline-secondary modalBtnMobile"
+                    onClick={() => setModalShow(true)}
+                    data-testid="custom-element"
+            >
+                {country.value} -
+                <CurrencyExchange className={"d-inline me-1 ms-1"}/>
+                {currency.value}
+            </Button>
+            <ModalWindow
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                country={country.value}
+                currency={currency.code}
+                countries_list={countriesList}
+                currencies_list={currenciesList}
+                change_country={changeCountry}
+                change_currency={changeCurrency}
+            />
+        </div>
+    )
 }
 
-export default Modal;
+export default CountryCurrencyModal;

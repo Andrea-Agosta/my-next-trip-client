@@ -3,7 +3,7 @@ import FormGroup from "./form-group";
 import React, {useState} from "react";
 import { Redirect } from 'react-router-dom';
 import Radio from "../radio/Radio";
-import Modal from "../modal/Modal";
+import TravellersModal from "../modal/travellers/Travellers-modal";
 
 
 function SearchForm(props){
@@ -215,7 +215,7 @@ function SearchForm(props){
                                 {/*<Form.Select>*/}
                                 {/*    <option> 1 person</option>*/}
                                 {/*</Form.Select>*/}
-                                <Modal role={"addPeople"}/>
+                                <TravellersModal />
                             </div>
                         </Row>
                     <Button

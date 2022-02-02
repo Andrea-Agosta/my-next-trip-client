@@ -1,9 +1,9 @@
 import {render, screen} from "@testing-library/react";
 import React from "react";
-import Modal from "../Modal";
+import CountryCurrencyModal from "../Country-currency-modal";
 import {setupServer} from "msw/node";
 import {rest} from "msw";
-import {REACT_APP_API_GEOLOCATION_URL} from "../../../config";
+import {REACT_APP_API_GEOLOCATION_URL} from "../../../../config";
 
 
 // MOCK RESP GEOLOCATION API
@@ -23,9 +23,9 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
-describe("Modal",() => {
+describe("CountryCurrencyModal",() => {
     test('loads logo', async () => {
-        render(<Modal />);
+        render(<CountryCurrencyModal />);
 
         // ToDo learn how to mock the api and render the button
         // screen.getByRole('button', {

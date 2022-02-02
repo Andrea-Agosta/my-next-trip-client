@@ -28,7 +28,7 @@ global.window.matchMedia = jest.fn().mockReturnValue({
 // afterEach(() => server.resetHandlers())
 // afterAll(() => server.close())
 
-// jest.mock('../modal/Modal');
+// jest.mock('../modal/CountryCurrencyModal');
 
 describe("Navbar",() => {
     test('loads logo', async () => {
@@ -56,7 +56,7 @@ describe("Navbar",() => {
     //     await expect(loginButton).toBeInTheDocument();
     // });
 
-    // test('loads Modal', async () => {
+    // test('loads CountryCurrencyModal', async () => {
     //     render(<Navbar />);
     //
     // });
