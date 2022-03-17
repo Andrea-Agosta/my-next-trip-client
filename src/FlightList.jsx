@@ -43,7 +43,6 @@ function FlightList(props) {
 
          serverConnection("GET", "/flights/search", search)
             .then(response => {
-                console.log(response);
                 if (response.status === 200){
                     const tempFlightList = [];
                     response.data.map(singleFlight => (

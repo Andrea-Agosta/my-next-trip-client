@@ -11,7 +11,6 @@ For this application, I used React.js for the frontend side with [React  Bootstr
 
 After the `git clone` of the project cd in to project root folder.
 
-Rename the file `.env-example` into `.env` and update the file with your data.
 Rename the file `config-example.js` into `config.js` and update the file with your data.
 
 Run in a terminal
@@ -27,5 +26,6 @@ http://localhost:3000
 
 ### Future Implementation
 
+- try to fix vulnerability
 - Login / registration Form;
-- User page whit saved flight;
+- User page with saved flight;

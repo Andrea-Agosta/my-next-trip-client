@@ -11,6 +11,7 @@ function FormGroup(props){
                 placeholder={props.placeholder}
                 name={props.name}
                 onChange={props.handleChange}
+                autocomplete={'off'}
             />
             <div className={"errorMsg"}>{props.error}</div>
         </Form.Group>
