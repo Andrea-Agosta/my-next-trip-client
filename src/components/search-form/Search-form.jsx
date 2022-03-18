@@ -238,7 +238,7 @@ function SearchForm(props){
                         fly_from: flyFrom,
                         fly_to: flyTo,
                         date_from: dateSearch.date_from,
-                        date_to: dateTo.date_to,
+                        date_to: dateSearch.date_to,
                         curr: props.modalValue.currency,
                         typeSearch:flightSearchType,
                         adults: countTravellers.adults,

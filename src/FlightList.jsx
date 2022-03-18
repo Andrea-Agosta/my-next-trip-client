@@ -76,7 +76,8 @@ function FlightList(props) {
                                             bookingToken={flight.booking_token}
                                             linkKiwi={flight.deep_link}
                                             outbound={flight.routes[0]}
-                                            return={flight.routes[1]}
+                                            // return={flight.routes[1]}
+                                            return={flight.routes[0]}
                                             changeAirport={flight.has_airport_change}
                                             cityTo={flight.cityTo}
                                             localTimeArrival={flight.local_arrival.slice(11, 16)}

@@ -25,14 +25,14 @@ function Flight(props){
                     // SAVE STOPS IN ARRAY
                     outboundRoutes.push(airport.flyTo);
 
-                    let airline = airport.airline;
-                    if (airline === "RK"){
-                        airline = "FR";
+                    let airlineCompany = airport.airline;
+                    if (airlineCompany === "RK"){
+                        airlineCompany = "FR";
                     }
 
                     //CHECK IF THE AIRLINE COMPANY EXIST IN ARRAY AND IS NOT PUSH THE DATA
-                    if (!departureLogo.includes(airline)){
-                        departureLogo.push(airline);
+                    if (!departureLogo.includes(airlineCompany)){
+                        departureLogo.push(airlineCompany);
                     }
                 });
             } else {
@@ -50,22 +50,22 @@ function Flight(props){
         }
     } else {
         props.route.forEach( airport => {
-            let airline = airport.airline;
+            let airlineCompany = airport.airline;
 
             // SET AIRLINE FR BECAUSE RK IS RYANAIR UK
-            if (airline === "RK"){
-                airline = "FR";
+            if (airlineCompany === "RK"){
+                airlineCompany = "FR";
             }
 
             // SET AIRLINE IB BECAUSE RK IS IBERIA EXPRESS
-            if(airline === "I2"){
-                airline = "IB";
+            if(airlineCompany === "I2"){
+                airlineCompany = "IB";
             }
 
             // CHECK AND SAVE STOPS IN OUTBOUND ARRAY
             if (airport.cityTo !== props.cityTo && setOutbound) {
-                if (props.logo.length > 1 && departureLogo.includes(airline) === false) {
-                    departureLogo.push(airline);
+                if (props.logo.length > 1 && departureLogo.includes(airlineCompany) === false) {
+                    departureLogo.push(airlineCompany);
                 }
                 outboundRoutes.push(airport.flyTo);
             }
@@ -73,6 +73,7 @@ function Flight(props){
             // SWITCH IN RETURN ARRAY
             if (airport.cityTo === props.cityTo) {
                 setOutbound = false;
+                departureLogo.push(airlineCompany);
             }
 
             if (airport.cityFrom === props.cityTo){
@@ -81,8 +82,8 @@ function Flight(props){
 
             // CHECK AND SAVE STOPS IN RETURN ARRAY
             if (airport.cityTo !== props.cityTo && !setOutbound) {
-                if(props.logo.length > 1 && returnLogo.includes(airline) === false){
-                    returnLogo.push(airline);
+                if(props.logo.length > 1 && returnLogo.includes(airlineCompany) === false){
+                    returnLogo.push(airlineCompany);
                 }
                 returnRoutes.push(airport.flyTo);
             }
@@ -124,8 +125,8 @@ function Flight(props){
                                 cityCodeTo={returnRoutes[returnRoutes.length-1]}
                                 airline={props.logo}
                                 logo={returnLogo}
-                                departure={props.return[0]}
-                                arrival={props.return[1]}
+                                departure={props.return[1]}
+                                arrival={props.return[0]}
                                 changeAirport={props.changeAirport}
                                 localTimeArrival={props.route[props.route.length - 1 ].local_arrival.slice(11,16)}
                                 localTimeDeparture={returnFlightTime}
@@ -141,7 +142,7 @@ function Flight(props){
                         <div className="row text-center">
                             <div className="col-12 fw-bold fs-3 mb-2">{props.curr} {props.price}</div>
                             <div className="col-12">
-                                <a href="#" className={"btn btn-success fs-5 fw-bold w-50"}> Save </a>
+                                <a href={"#"} className={"btn btn-success fs-5 fw-bold w-50"}> Save </a>
                             </div>
                             <div className="col-12 mt-3">
                                 <a href={props.linkKiwi} className={"btn btn-primary fs-5 fw-bold w-50"}>
